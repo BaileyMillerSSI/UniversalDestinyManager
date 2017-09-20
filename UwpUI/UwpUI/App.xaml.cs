@@ -96,5 +96,54 @@ namespace UwpUI
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        protected override void OnActivated(IActivatedEventArgs e)
+        {
+            switch (e.Kind)
+            {
+                case ActivationKind.Protocol:
+                    LaunchWindow((e as ProtocolActivatedEventArgs).Uri.Host);
+                    break;
+                default:
+                    LaunchWindow();
+                    break;
+            }
+        }
+
+        private void LaunchWindow(string authCode = "")
+        {
+
+            // TODO: Handle URI activation
+            // The received URI is eventArgs.Uri.AbsoluteUri
+
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (!String.IsNullOrEmpty(authCode))
+            {
+                // Always navigate for a protocol launch
+                rootFrame.Navigate(typeof(MainPage), authCode);
+            }
+            else {
+                rootFrame.Navigate(typeof(MainPage));
+            }
+
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
     }
 }

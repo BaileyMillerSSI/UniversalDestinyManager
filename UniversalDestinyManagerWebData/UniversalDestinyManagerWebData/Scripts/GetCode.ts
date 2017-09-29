@@ -15,7 +15,7 @@
 
     private GetRootPageUrl(): string
     {
-        return window.location.href;
+        return `${window.location.origin}${window.location.pathname}`;
     }
 
     public LaunchUwpApp(code: string)

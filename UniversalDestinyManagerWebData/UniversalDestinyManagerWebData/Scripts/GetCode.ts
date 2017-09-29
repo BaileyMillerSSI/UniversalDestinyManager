@@ -1,8 +1,8 @@
 ﻿class GetDestinyCode
 {
-    public LaunchUwpApp(code: string)
+    public LaunchUwpApp(code: string, override: boolean = false)
     {
-        if (this.HasCodeInQueryString())
+        if (this.HasCodeInQueryString() || override)
         {
             var launcher = document.createElement("a");
             launcher.id = "UwpLauncher";
@@ -42,6 +42,33 @@
 }
 class HelperFunctions
 {
+    public static IsVisible(id: string): boolean
+    {
+        var element = document.getElementById(id);
+
+        if (element != null)
+        {
+            return element.style.display === "";
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static ToggleVisibleState(id: string)
+    {
+        var element = document.getElementById(id);
+
+        if (element != null)
+        {
+            if (this.IsVisible(id)) {
+                element.style.display = "none";
+            } else {
+                element.style.display = "";
+            }
+        }
+    }
+
     public static BeginRedirect(waitTime: number = 10000) {
         setTimeout(() => {
             this.DoRedirect();

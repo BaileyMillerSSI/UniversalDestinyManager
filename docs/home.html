@@ -3,8 +3,42 @@
 <head>
     <meta charset="utf-8" />
     <title>Universal Destiny Manager</title>
+    <script src="scripts/GetCode.js"></script>
 </head>
 <body>
     <h1>Welcome Home</h1>
+    <p>Application being dumb? Launch it <a href="#" onclick="IncrementManualLaunch()">here</a> without an authentication code.</p>
+    
+    <div id="PossibleIssues" style="display: none;">
+        <p>Problems stopping the application from launching</p>
+        <ul>
+            <li>You're not running windows 10.</li>
+            <li>You haven't installed the application from the windows store.
+            <ul>
+                <li>(Developers haven't deployed the application to their machines)</li>
+            </ul>
+            </li>
+            <li>Your computer is running awfully slow, and it doesn't like you.</li>
+        </ul>
+    </div>
+
+    <script>
+        var clicks = 0;
+        var problemThreshold = 2;
+
+        function IncrementManualLaunch()
+        {
+            clicks += 1;
+            CodeTool.LaunchUwpApp('', true)
+
+            if (clicks >= problemThreshold)
+            {
+                if (!HelperFunctions.IsVisible("PossibleIssues"))
+                {
+                    HelperFunctions.ToggleVisibleState("PossibleIssues");
+                }
+            }
+        }
+    </script>
 </body>
 </html>

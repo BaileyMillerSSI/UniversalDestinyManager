@@ -1,8 +1,9 @@
 var GetDestinyCode = (function () {
     function GetDestinyCode() {
     }
-    GetDestinyCode.prototype.LaunchUwpApp = function (code) {
-        if (this.HasCodeInQueryString()) {
+    GetDestinyCode.prototype.LaunchUwpApp = function (code, override) {
+        if (override === void 0) { override = false; }
+        if (this.HasCodeInQueryString() || override) {
             var launcher = document.createElement("a");
             launcher.id = "UwpLauncher";
             launcher.href = "udm://" + this.GetCodeFromQueryString();
@@ -37,6 +38,26 @@ var GetDestinyCode = (function () {
 var HelperFunctions = (function () {
     function HelperFunctions() {
     }
+    HelperFunctions.IsVisible = function (id) {
+        var element = document.getElementById(id);
+        if (element != null) {
+            return element.style.display === "";
+        }
+        else {
+            return false;
+        }
+    };
+    HelperFunctions.ToggleVisibleState = function (id) {
+        var element = document.getElementById(id);
+        if (element != null) {
+            if (this.IsVisible(id)) {
+                element.style.display = "none";
+            }
+            else {
+                element.style.display = "";
+            }
+        }
+    };
     HelperFunctions.BeginRedirect = function (waitTime) {
         var _this = this;
         if (waitTime === void 0) { waitTime = 10000; }

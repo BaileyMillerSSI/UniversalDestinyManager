@@ -19,7 +19,8 @@
     
     public GetCodeFromQueryString(): string
     {
-        if (this.HasCodeInQueryString()) {
+        if (this.HasCodeInQueryString())
+        {
             var results = new RegExp('[\?&]' + "code" + '=([^&#]*)').exec(window.location.href);
             return decodeURI(results[1]);
         } else

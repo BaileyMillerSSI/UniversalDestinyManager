@@ -12,7 +12,7 @@ var GetDestinyCode = (function () {
         window.location.replace(this.GetRootPageUrl() + "home.html");
     };
     GetDestinyCode.prototype.GetRootPageUrl = function () {
-        return window.location.href;
+        return "" + window.location.origin + window.location.pathname;
     };
     GetDestinyCode.prototype.LaunchUwpApp = function (code) {
         if (this.HasCodeInQueryString()) {

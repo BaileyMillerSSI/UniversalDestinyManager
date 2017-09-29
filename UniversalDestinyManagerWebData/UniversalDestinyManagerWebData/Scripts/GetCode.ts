@@ -1,23 +1,5 @@
 ﻿class GetDestinyCode
 {
-    public BeginRedirect(waitTime: number = 10000)
-    {
-        setTimeout(() => {
-            this.DoRedirect();
-        }, waitTime);
-    }
-
-    public DoRedirect()
-    {
-        //Called when redirect fires
-        window.location.replace(this.GetRootPageUrl() + "home.html");
-    }
-
-    private GetRootPageUrl(): string
-    {
-        return `${window.location.origin}${window.location.pathname}`;
-    }
-
     public LaunchUwpApp(code: string)
     {
         if (this.HasCodeInQueryString())
@@ -51,8 +33,28 @@
         var search = new URLSearchParams(queryString);
         var data = search.get("code");
 
-        return (data != "" || data != null) ? true : false;
+        if (data != null && data != "") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
+class HelperFunctions
+{
+    public static BeginRedirect(waitTime: number = 10000) {
+        setTimeout(() => {
+            this.DoRedirect();
+        }, waitTime);
+    }
 
+    public static DoRedirect() {
+        //Called when redirect fires
+        window.location.replace(this.GetRootPageUrl() + "home.html");
+    }
+
+    private static GetRootPageUrl(): string {
+        return `${window.location.origin}${window.location.pathname}`;
+    }
+}
 var CodeTool = new GetDestinyCode();

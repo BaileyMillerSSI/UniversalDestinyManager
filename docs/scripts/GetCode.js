@@ -1,20 +1,6 @@
 var GetDestinyCode = (function () {
     function GetDestinyCode() {
     }
-    GetDestinyCode.prototype.BeginRedirect = function (waitTime) {
-        var _this = this;
-        if (waitTime === void 0) { waitTime = 10000; }
-        setTimeout(function () {
-            _this.DoRedirect();
-        }, waitTime);
-    };
-    GetDestinyCode.prototype.DoRedirect = function () {
-        //Called when redirect fires
-        window.location.replace(this.GetRootPageUrl() + "home.html");
-    };
-    GetDestinyCode.prototype.GetRootPageUrl = function () {
-        return "" + window.location.origin + window.location.pathname;
-    };
     GetDestinyCode.prototype.LaunchUwpApp = function (code) {
         if (this.HasCodeInQueryString()) {
             var launcher = document.createElement("a");
@@ -39,9 +25,33 @@ var GetDestinyCode = (function () {
         var queryString = window.location.search;
         var search = new URLSearchParams(queryString);
         var data = search.get("code");
-        return (data != "" || data != null) ? true : false;
+        if (data != null && data != "") {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     return GetDestinyCode;
+}());
+var HelperFunctions = (function () {
+    function HelperFunctions() {
+    }
+    HelperFunctions.BeginRedirect = function (waitTime) {
+        var _this = this;
+        if (waitTime === void 0) { waitTime = 10000; }
+        setTimeout(function () {
+            _this.DoRedirect();
+        }, waitTime);
+    };
+    HelperFunctions.DoRedirect = function () {
+        //Called when redirect fires
+        window.location.replace(this.GetRootPageUrl() + "home.html");
+    };
+    HelperFunctions.GetRootPageUrl = function () {
+        return "" + window.location.origin + window.location.pathname;
+    };
+    return HelperFunctions;
 }());
 var CodeTool = new GetDestinyCode();
 //# sourceMappingURL=GetCode.js.map

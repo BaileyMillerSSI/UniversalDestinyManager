@@ -1,5 +1,22 @@
 ﻿class GetDestinyCode
 {
+    public BeginRedirect()
+    {
+        setTimeout(() => {
+            this.DoRedirect();
+        }, 10000);
+    }
+
+    public DoRedirect()
+    {
+        //Called when redirect fires
+        window.location.replace(this.GetRootPageUrl() + "home.html");
+    }
+
+    private GetRootPageUrl(): string
+    {
+        return window.location.href;
+    }
 
     public LaunchUwpApp(code: string)
     {

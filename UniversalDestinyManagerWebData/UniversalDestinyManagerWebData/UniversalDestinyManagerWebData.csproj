@@ -17,4 +17,8 @@
     <TypeScriptCompile Include="Scripts\GetCode.ts" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(ProjectDir)wwwroot&quot; &quot;../../docs&quot; /E /Y" />
+  </Target>
+
 </Project>

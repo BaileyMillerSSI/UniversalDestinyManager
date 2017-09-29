@@ -1,6 +1,19 @@
 var GetDestinyCode = (function () {
     function GetDestinyCode() {
     }
+    GetDestinyCode.prototype.BeginRedirect = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.DoRedirect();
+        }, 10000);
+    };
+    GetDestinyCode.prototype.DoRedirect = function () {
+        //Called when redirect fires
+        window.location.replace(this.GetRootPageUrl() + "home.html");
+    };
+    GetDestinyCode.prototype.GetRootPageUrl = function () {
+        return window.location.href;
+    };
     GetDestinyCode.prototype.LaunchUwpApp = function (code) {
         if (this.HasCodeInQueryString()) {
             var launcher = document.createElement("a");

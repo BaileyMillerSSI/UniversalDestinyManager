@@ -6,14 +6,17 @@
     <script src="scripts/GetCode.js"></script>
 </head>
 <body>
-    <h1>Thanks for authenticating with Universal Destiny Manager</h1>
-
+    <h1>Thanks for authenticating with Universal Destiny Manager.</h1>
+    <h2>Universal Destiny Manager will open shortly</h2>
+    <h3>You'll be redirected in 10 seconds to our home page.</h3>
+    <p>If the redirect doesn't happen automatically click <a href="#" onclick="CodeTool.DoRedirect()">here</a></p>
 
 
     <script>
         // self executing function here
         (function () {
             CodeTool.LaunchUwpApp();
+            CodeTool.BeginRedirect();
         })();
     </script>
 

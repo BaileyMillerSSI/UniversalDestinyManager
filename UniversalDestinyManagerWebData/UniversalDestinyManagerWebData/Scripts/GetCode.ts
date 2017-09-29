@@ -1,10 +1,10 @@
 ﻿class GetDestinyCode
 {
-    public BeginRedirect()
+    public BeginRedirect(waitTime: number = 10000)
     {
         setTimeout(() => {
             this.DoRedirect();
-        }, 10000);
+        }, waitTime);
     }
 
     public DoRedirect()

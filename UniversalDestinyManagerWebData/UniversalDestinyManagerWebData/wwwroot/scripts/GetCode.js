@@ -1,11 +1,12 @@
 var GetDestinyCode = (function () {
     function GetDestinyCode() {
     }
-    GetDestinyCode.prototype.BeginRedirect = function () {
+    GetDestinyCode.prototype.BeginRedirect = function (waitTime) {
         var _this = this;
+        if (waitTime === void 0) { waitTime = 10000; }
         setTimeout(function () {
             _this.DoRedirect();
-        }, 10000);
+        }, waitTime);
     };
     GetDestinyCode.prototype.DoRedirect = function () {
         //Called when redirect fires

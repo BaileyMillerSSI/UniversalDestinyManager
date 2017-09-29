@@ -16,21 +16,20 @@ var GetDestinyCode = (function () {
     };
     GetDestinyCode.prototype.GetCodeFromQueryString = function () {
         if (this.HasCodeInQueryString()) {
-            return new URLSearchParams(window.location.search).get("code");
+            var results = new RegExp('[\?&]' + "code" + '=([^&#]*)').exec(window.location.href);
+            return decodeURI(results[1]);
         }
         else {
-            return "";
+            return null;
         }
     };
     GetDestinyCode.prototype.HasCodeInQueryString = function () {
-        var queryString = window.location.search;
-        var search = new URLSearchParams(queryString);
-        var data = search.get("code");
-        if (data != null && data != "") {
-            return true;
+        var results = new RegExp('[\?&]' + "code" + '=([^&#]*)').exec(window.location.href);
+        if (results == null) {
+            return false;
         }
         else {
-            return false;
+            return true;
         }
     };
     return GetDestinyCode;

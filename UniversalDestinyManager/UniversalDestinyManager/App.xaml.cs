@@ -66,7 +66,7 @@ namespace UniversalDestinyManager
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(AuthenticationPage), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -132,14 +132,15 @@ namespace UniversalDestinyManager
                 Window.Current.Content = rootFrame;
             }
 
-            if (!String.IsNullOrEmpty(authCode))
+            if (String.IsNullOrEmpty(authCode) || authCode == "null")
             {
-                // Always navigate for a protocol launch
-                rootFrame.Navigate(typeof(MainPage), authCode);
+                rootFrame.Navigate(typeof(AuthenticationPage));
             }
             else
             {
-                rootFrame.Navigate(typeof(MainPage));
+                // Always navigate for a protocol launch
+                rootFrame.Navigate(typeof(AuthenticatingPage), authCode);
+                
             }
 
 

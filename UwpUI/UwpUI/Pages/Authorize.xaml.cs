@@ -38,7 +38,7 @@ namespace UwpUI.Pages
         {
             const string AuthorizationPath = "https://www.bungie.net/en/OAuth/Authorize?client_id={0}&response_type=code";
 
-            await Launcher.LaunchUriAsync(new Uri(String.Format(AuthorizationPath, "21086")));
+            await Launcher.LaunchUriAsync(new Uri(String.Format(AuthorizationPath, "")));
         }
     }
 }

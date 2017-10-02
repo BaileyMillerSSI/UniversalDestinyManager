@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -29,7 +33,31 @@ namespace UwpUI.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Code.Text = e.Parameter as String;
+            FinishAuthenticationAsync(Code.Text = e.Parameter as String);
+        }
+
+        private async Task FinishAuthenticationAsync(string code)
+        {
+            using (var web = new HttpClient())
+            {
+                var xForm = new Dictionary<String, string>()
+                {
+                    { "grant_type", "authorization_code"},
+                    {"code", code},
+                    {"client_id", "" }
+                };
+                var content = new FormUrlEncodedContent(xForm);
+                var rawData = await web.PostAsync("https://www.bungie.net/platform/app/oauth/token/", content);
+                var rawStringData =  await rawData.Content.ReadAsStringAsync();
+                Code.Text = code;
+                AccessToken.Text = JsonConvert.DeserializeObject<AuthenticationCompleteModel>(rawStringData).access_token;
+
+                Clipboard.Clear();
+
+                var clipData = new DataPackage();
+                clipData.SetText(AccessToken.Text);
+                Clipboard.SetContent(clipData);
+            }
         }
     }
 }

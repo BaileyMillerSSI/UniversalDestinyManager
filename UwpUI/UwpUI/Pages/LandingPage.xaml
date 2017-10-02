@@ -8,6 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="Code" Text="Code Goes Here"/>
+        <TextBlock x:Name="Code" Text="Code Goes Here" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock x:Name="AccessToken" Text="Access Token Goes Here" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Page>

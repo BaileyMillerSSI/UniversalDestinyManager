@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace DestinyManifestViewer
 {
@@ -15,17 +16,29 @@ namespace DestinyManifestViewer
 
         static void Main(string[] args)
         {
-            //To-Do display all the tables names inside the database
+            var timer = new Stopwatch();
+            timer.Start();
+            //Starts the connection to the database
             StartConnection();
 
+            //Gets all the names of the tables
             var tableNames = ListTableNames(false);
+
+            //Converts that table list to a que, so that they can be processed
             var tablesToDump = ToQue<String>(tableNames);
             
-            var EnemyRaces = ConvertTableData<EnemyRaceDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+            //All the available tables and their data dump
+            var EnemyRaces = ConvertTableData<EnemyRaceDefinition>(DumpTableData(tablesToDump.Dequeue(), false)).Map(x=>x.ProcessDisplayData()).ToList();
             var Places = ConvertTableData<PlaceDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
             var Activities = ConvertTableData<DestinyActivityDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
             var ActivityTypes = ConvertTableData<DestinyActivityTypeDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
             var Classes = ConvertTableData<ClassDefinitions>(DumpTableData(tablesToDump.Dequeue(), false));
+            var Genders = ConvertTableData<GenderDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+            var InventoryBucketDefinitions = ConvertTableData<InventoryBucketDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+
+            timer.Stop();
+
+            Console.WriteLine($"Processing took: {timer.Elapsed.TotalSeconds} seconds");
 
             PrintEndingStatement();
         }
@@ -134,6 +147,19 @@ namespace DestinyManifestViewer
             Console.WriteLine("Press any key to exit.");
             _Connection.Close();
             Console.ReadLine();
+        }
+    }
+
+    public static class MapFunction
+    {
+        public static IEnumerable<T> Map<T>(this IEnumerable<T> me, Action<T> worker)
+        {
+            foreach (var item in me)
+            {
+                worker(item);
+            }
+
+            return me;
         }
     }
 }

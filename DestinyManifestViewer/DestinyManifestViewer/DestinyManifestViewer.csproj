@@ -67,6 +67,8 @@
     <Compile Include="Models\DestinyActivityDefinition.cs" />
     <Compile Include="Models\DestinyActivityTypeDefinition.cs" />
     <Compile Include="Models\EnemyRaceDefinition.cs" />
+    <Compile Include="Models\GenderDefinition.cs" />
+    <Compile Include="Models\InventoryBucketDefinition.cs" />
     <Compile Include="Models\PlaceDefinition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

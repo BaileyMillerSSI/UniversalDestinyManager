@@ -63,7 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnemyRaceDefinition.cs" />
+    <Compile Include="Models\DestinyActivityDefinition.cs" />
+    <Compile Include="Models\DestinyActivityTypeDefinition.cs" />
+    <Compile Include="Models\EnemyRaceDefinition.cs" />
+    <Compile Include="Models\PlaceDefinition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DestinyManifestViewer.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -18,16 +19,25 @@ namespace DestinyManifestViewer
             StartConnection();
 
             var tableNames = ListTableNames(false);
-
-            var EnemyRacesRaw = DumpTableData(tableNames.First(), false);
-
-            var EnemyRaces = ConvertTableData<EnemyRaceDefinition>(EnemyRacesRaw);
+            var tablesToDump = ToQue<String>(tableNames);
+            
+            var EnemyRaces = ConvertTableData<EnemyRaceDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+            var Places = ConvertTableData<PlaceDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+            var Activities = ConvertTableData<DestinyActivityDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+            var ActivityTypes = ConvertTableData<DestinyActivityTypeDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
 
             PrintEndingStatement();
         }
 
-
-
+        private static Queue<T> ToQue<T>(List<T> tableNames)
+        {
+            var q = new Queue<T>();
+            foreach (var item in tableNames)
+            {
+                q.Enqueue(item);
+            }
+            return q;
+        }
 
         private static List<T> ConvertTableData<T>(List<string> tableDump)
         {

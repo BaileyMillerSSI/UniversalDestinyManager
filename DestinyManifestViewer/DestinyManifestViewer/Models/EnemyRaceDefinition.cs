@@ -4,20 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DestinyManifestViewer
+namespace DestinyManifestViewer.Models
 {
     public class EnemyRaceDefinition
     {
-        public Displayproperties displayProperties { get; set; }
+        public DescriptiveDisplayproperties displayProperties { get; set; }
         public long hash { get; set; }
         public int index { get; set; }
         public bool redacted { get; set; }
-    }
-
-    public class Displayproperties
-    {
-        public string icon { get; set; }
-        public bool hasIcon { get; set; }
     }
 
 }

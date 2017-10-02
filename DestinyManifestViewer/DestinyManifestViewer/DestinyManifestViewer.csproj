@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ClassDefinitions.cs" />
     <Compile Include="Models\DestinyActivityDefinition.cs" />
     <Compile Include="Models\DestinyActivityTypeDefinition.cs" />
     <Compile Include="Models\EnemyRaceDefinition.cs" />

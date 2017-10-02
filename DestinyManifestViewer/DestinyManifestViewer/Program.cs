@@ -25,6 +25,7 @@ namespace DestinyManifestViewer
             var Places = ConvertTableData<PlaceDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
             var Activities = ConvertTableData<DestinyActivityDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
             var ActivityTypes = ConvertTableData<DestinyActivityTypeDefinition>(DumpTableData(tablesToDump.Dequeue(), false));
+            var Classes = ConvertTableData<ClassDefinitions>(DumpTableData(tablesToDump.Dequeue(), false));
 
             PrintEndingStatement();
         }

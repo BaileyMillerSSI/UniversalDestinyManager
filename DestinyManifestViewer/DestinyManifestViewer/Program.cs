@@ -21,8 +21,8 @@ namespace DestinyManifestViewer
             //Starts the connection to the database
             StartConnection();
 
-            //Gets all the names of the tables
-            var tableNames = ListTableNames(false);
+            //Gets all the names of the tables, removes that weird ass autoIndex table
+            var tableNames = ListTableNames(false).Where(x=>x.StartsWith("Destiny"));
 
             //Converts that table list to a que, so that they can be processed
             var tablesToDump = ToQue<String>(tableNames);
@@ -43,7 +43,7 @@ namespace DestinyManifestViewer
             PrintEndingStatement();
         }
 
-        private static Queue<T> ToQue<T>(List<T> tableNames)
+        private static Queue<T> ToQue<T>(IEnumerable<T> tableNames)
         {
             var q = new Queue<T>();
             foreach (var item in tableNames)

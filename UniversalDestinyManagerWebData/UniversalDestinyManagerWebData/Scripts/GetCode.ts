@@ -87,7 +87,7 @@ class HelperFunctions
 
     public static DoRedirect(path: string = "") {
         //Called when redirect fires
-        if (path === "") {
+        if (path === undefined || path === "") {
             window.location.replace(this.GetRootPageUrl() + "home.html");
         } else {
             window.location.replace(this.GetRootPageUrl() + path);
@@ -96,7 +96,17 @@ class HelperFunctions
     }
 
     private static GetRootPageUrl(): string {
-        return `${window.location.origin}${window.location.pathname}`;
+        var data = `${window.location.origin}${this.CleanPathName()}/`
+        return data;
+    }
+
+    private static CleanPathName(): string {
+        var containsFilePath = window.location.pathname.indexOf('html') != -1
+        if (!containsFilePath) {
+            return window.location.pathname;
+        } else {
+            return "";
+        }
     }
 }
 var CodeTool = new GetDestinyCode();

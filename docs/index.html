@@ -16,7 +16,7 @@
         // self executing function here
         (function () {
             CodeTool.LaunchUwpApp();
-            if (CodeTool.HasCodeInQueryString())
+            if (!CodeTool.HasCodeInQueryString())
             {
                 HelperFunctions.BeginRedirect();
             } else

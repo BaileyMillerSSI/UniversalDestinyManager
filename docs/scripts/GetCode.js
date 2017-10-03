@@ -75,7 +75,7 @@ var HelperFunctions = (function () {
     HelperFunctions.DoRedirect = function (path) {
         if (path === void 0) { path = ""; }
         //Called when redirect fires
-        if (path === "") {
+        if (path === undefined || path === "") {
             window.location.replace(this.GetRootPageUrl() + "home.html");
         }
         else {
@@ -83,7 +83,17 @@ var HelperFunctions = (function () {
         }
     };
     HelperFunctions.GetRootPageUrl = function () {
-        return "" + window.location.origin + window.location.pathname;
+        var data = "" + window.location.origin + this.CleanPathName() + "/";
+        return data;
+    };
+    HelperFunctions.CleanPathName = function () {
+        var containsFilePath = window.location.pathname.indexOf('html') != -1;
+        if (!containsFilePath) {
+            return window.location.pathname;
+        }
+        else {
+            return "";
+        }
     };
     return HelperFunctions;
 }());

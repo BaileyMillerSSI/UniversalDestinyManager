@@ -30,25 +30,55 @@ namespace UniversalDestinyManager
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+
+            //Set loading text to Authenticating
+            LoadingText.Text = "Authenticating";
+            ProgressLoadingWheel.IsActive = true;
+
             //Start loading animation
             var code = e.Parameter as String;
             await PreAuthenticationCodeLauncher.FinishAuthentication(code);
-            //End loading animation
 
-            //After full authentication has finished, load user information for the next few screens
+            //Set loading text to Loading profile
+            LoadingText.Text = "Loading profile";
 
             //Load Profile
             var profileData = await DestinyApi.GetProfileAsync();
 
+
+            //Set loading text to Loading platform profile
+            LoadingText.Text = "Loading platform profile";
+
             //Load Platform Profile
             var platformData = await DestinyApi.GetMembershipProfileAsync(profileData.Response.xboxDisplayName, Models.PlatformType.TigerXbox);
 
+            //Set loading text to Loading character data
+            LoadingText.Text = "Loading character data";
+
             //Loading characters
-            DestinyApi.GetCharactersAsync(null, Models.PlatformType.TigerXbox);
-            //Loading profile stats
+            var characterData = await DestinyApi.GetCharactersAsync();
+
+            //End loading animation
+            if (characterData != null)
+            {
+                //Find the highest light level character
+                var highestLight = characterData.Response.characters.data.OrderByDescending(x => x.Value.light).FirstOrDefault().Value.light;
+                LoadingText.Text = $"Welcome {platformData.displayName}! You're highest light character is {highestLight}";
+            }
+            else {
+                LoadingText.Text = "";
+            }
+            ProgressLoadingWheel.IsActive = false;
+            
+            
 
             //Building Database
-            
+
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            LoadingText.Margin = new Thickness(0, e.NewSize.Height / 10.8 ,0, 0);
         }
     }
 }

@@ -105,6 +105,8 @@
       <DependentUpon>CharacterSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthenticationResponse.cs" />
+    <Compile Include="Models\DestinyProfileResponse.cs" />
+    <Compile Include="Models\GetCharacterResponse.cs" />
     <Compile Include="Models\GetProfileResponse.cs" />
     <Compile Include="Models\PlatformType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

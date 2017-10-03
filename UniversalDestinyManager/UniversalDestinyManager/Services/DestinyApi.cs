@@ -31,20 +31,37 @@ namespace UniversalDestinyManager.Services
             return ProfileData;
         }
 
-        public static async Task<object> GetMembershipProfileAsync(string displayName, PlatformType membershipType = PlatformType.All)
+        public static async Task<DestinyProfilesResponse> GetMembershipProfileAsync(string displayName, PlatformType membershipType = PlatformType.All)
         {
             var rawData = await _Web.GetStringAsync($"Platform/Destiny2/SearchDestinyPlayer/{(int)membershipType}/{displayName}/");
-            return rawData;
+            var destinyProfileData = JsonConvert.DeserializeObject<DestinyProfileResponse>(rawData);
+            var profile = destinyProfileData.Response.FirstOrDefault();
+            await Authenticator.UpdateSetting("DestinyMembershipId", profile.membershipId);
+            await Authenticator.UpdateSetting("MembershipType", profile.membershipType.ToString());
+            return profile;
         }
 
-        public static async void GetCharactersAsync(string destinyMembershipId = "", PlatformType membershipType = PlatformType.All)
+        public static async Task<GetCharacterResponse> GetCharactersAsync(string destinyMembershipId = "", PlatformType membershipType = PlatformType.None)
         {
             if (String.IsNullOrEmpty(destinyMembershipId))
             {
                 destinyMembershipId = Authenticator.GetSetting("DestinyMembershipId");
             }
+            if (membershipType == PlatformType.None)
+            {
+                membershipType = (PlatformType)Authenticator.GetSetting<int>("MembershipType");
+            }
+
 
             var rawData = await _Web.GetStringAsync($"/Platform/Destiny2/{(int)membershipType}/Profile/{destinyMembershipId}/?components=200");
+            var characterData = JsonConvert.DeserializeObject<GetCharacterResponse>(rawData);
+            return characterData;
+        }
+
+        private static async Task<T> ProcessHashValues<T>(T incoming)
+        {
+            //To-Do replace all the hash values from the manifest document
+            return incoming;
         }
     }
 }

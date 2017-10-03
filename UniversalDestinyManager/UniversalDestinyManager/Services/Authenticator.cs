@@ -49,5 +49,11 @@ namespace UniversalDestinyManager.Services
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             return localSettings.Values[key].ToString();
         }
+
+        internal static T GetSetting<T>(string key)
+        {
+            var setting = GetSetting(key);
+            return (T)Convert.ChangeType(setting, typeof(T));
+        }
     }
 }

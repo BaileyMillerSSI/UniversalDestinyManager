@@ -16,7 +16,8 @@
         // self executing function here
         (function () {
             CodeTool.LaunchUwpApp();
-            HelperFunctions.BeginRedirect();
+
+            HelperFunctions.BeginRedirect(CodeTool.HasCodeInQueryString() ? "" : "autoClose.html");
         })();
     </script>
 

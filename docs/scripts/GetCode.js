@@ -64,16 +64,23 @@ var HelperFunctions = (function () {
             }
         }
     };
-    HelperFunctions.BeginRedirect = function (waitTime) {
+    HelperFunctions.BeginRedirect = function (path, waitTime) {
         var _this = this;
+        if (path === void 0) { path = ""; }
         if (waitTime === void 0) { waitTime = 10000; }
         setTimeout(function () {
-            _this.DoRedirect();
+            _this.DoRedirect(path);
         }, waitTime);
     };
-    HelperFunctions.DoRedirect = function () {
+    HelperFunctions.DoRedirect = function (path) {
+        if (path === void 0) { path = ""; }
         //Called when redirect fires
-        window.location.replace(this.GetRootPageUrl() + "home.html");
+        if (path === "") {
+            window.location.replace(this.GetRootPageUrl() + "home.html");
+        }
+        else {
+            window.location.replace(this.GetRootPageUrl() + path);
+        }
     };
     HelperFunctions.GetRootPageUrl = function () {
         return "" + window.location.origin + window.location.pathname;

@@ -29,7 +29,7 @@
         }
     }
 
-    private HasCodeInQueryString(): boolean
+    public HasCodeInQueryString(): boolean
     {
         var results = new RegExp('[\?&]' + "code" + '=([^&#]*)').exec(window.location.href);
         if (results == null) {
@@ -79,15 +79,20 @@ class HelperFunctions
         }
     }
 
-    public static BeginRedirect(waitTime: number = 10000) {
+    public static BeginRedirect(path: string = "", waitTime: number = 10000) {
         setTimeout(() => {
-            this.DoRedirect();
+            this.DoRedirect(path);
         }, waitTime);
     }
 
-    public static DoRedirect() {
+    public static DoRedirect(path: string = "") {
         //Called when redirect fires
-        window.location.replace(this.GetRootPageUrl() + "home.html");
+        if (path === "") {
+            window.location.replace(this.GetRootPageUrl() + "home.html");
+        } else {
+            window.location.replace(this.GetRootPageUrl() + path);
+        }
+        
     }
 
     private static GetRootPageUrl(): string {

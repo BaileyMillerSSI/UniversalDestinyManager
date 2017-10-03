@@ -43,6 +43,15 @@
 }
 class HelperFunctions
 {
+    public static TryCloseWindow(): void
+    {
+        try {
+            window.close();
+        } catch (e) {
+
+        }
+    }
+
     public static IsVisible(id: string): boolean
     {
         var element = document.getElementById(id);

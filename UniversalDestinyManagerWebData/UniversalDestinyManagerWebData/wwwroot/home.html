@@ -21,7 +21,12 @@
             <li>Your computer is running awfully slow, and it doesn't like you.</li>
         </ul>
     </div>
-
+    <script>
+        // self executing function here
+        (function () {
+            HelperFunctions.TryCloseWindow();
+        })();
+    </script>
     <script>
         var clicks = 0;
         var problemThreshold = 2;

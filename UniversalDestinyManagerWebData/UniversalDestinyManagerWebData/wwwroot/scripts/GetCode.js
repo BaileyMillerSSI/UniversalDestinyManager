@@ -37,6 +37,13 @@ var GetDestinyCode = (function () {
 var HelperFunctions = (function () {
     function HelperFunctions() {
     }
+    HelperFunctions.TryCloseWindow = function () {
+        try {
+            window.close();
+        }
+        catch (e) {
+        }
+    };
     HelperFunctions.IsVisible = function (id) {
         var element = document.getElementById(id);
         if (element != null) {

@@ -50,7 +50,11 @@ namespace UniversalDestinyManager
             LoadingText.Text = "Loading platform profile";
 
             //Load Platform Profile
-            var platformData = await DestinyApi.GetMembershipProfileAsync(profileData.Response.xboxDisplayName, Models.PlatformType.TigerXbox);
+
+            //Available displayNames
+            
+
+            var platformData = await DestinyApi.GetMembershipProfileAsync(profileData.Response.ReturnValidDisplayNames().OrderBy(x=>x.Key).Last().Value);
 
             //Set loading text to Loading character data
             LoadingText.Text = "Loading character data";

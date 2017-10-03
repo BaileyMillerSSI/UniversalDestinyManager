@@ -41,6 +41,25 @@ namespace UniversalDestinyManager.Models
         public string statusText { get; set; }
         public DateTime statusDate { get; set; }
         public string blizzardDisplayName { get; set; }
+
+        public Dictionary<String, String> ReturnValidDisplayNames()
+        {
+            var list = new Dictionary<String, String>();
+            if (!String.IsNullOrEmpty(xboxDisplayName))
+            {
+                list.Add("Xbox", xboxDisplayName);
+
+            }
+            if (!String.IsNullOrEmpty(blizzardDisplayName))
+            {
+                list.Add("Blizzard", blizzardDisplayName);
+            }
+
+            //To-Do add the playstation thing
+
+            return list;
+        }
+
     }
 
     public class Context

@@ -30,54 +30,55 @@ namespace UniversalDestinyManager
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-
             //Set loading text to Authenticating
             LoadingText.Text = "Authenticating";
             ProgressLoadingWheel.IsActive = true;
-
-            //Start loading animation
-            var code = e.Parameter as String;
-            await PreAuthenticationCodeLauncher.FinishAuthentication(code);
-
-            //Set loading text to Loading profile
-            LoadingText.Text = "Loading profile";
-
-            //Load Profile
-            var profileData = await DestinyApi.GetProfileAsync();
-
-
-            //Set loading text to Loading platform profile
-            LoadingText.Text = "Loading platform profile";
-
-            //Load Platform Profile
-
-            //Available displayNames
-            
-
-            var platformData = await DestinyApi.GetMembershipProfileAsync(profileData.Response.ReturnValidDisplayNames().OrderBy(x=>x.Key).Last().Value);
-
-            //Set loading text to Loading character data
-            LoadingText.Text = "Loading character data";
-
-            //Loading characters
-            var characterData = await DestinyApi.GetCharactersAsync();
-
-            //End loading animation
-            if (characterData != null)
+            if (e.Parameter != null)
             {
-                //Find the highest light level character
-                var highestLight = characterData.Response.characters.data.OrderByDescending(x => x.Value.light).FirstOrDefault().Value.light;
-                LoadingText.Text = $"Welcome {platformData.displayName}! You're highest light character is {highestLight}";
-            }
-            else {
-                LoadingText.Text = "";
-            }
-            ProgressLoadingWheel.IsActive = false;
-            
-            
+                //Start loading animation
+                var code = e.Parameter as String;
+                await PreAuthenticationCodeLauncher.FinishAuthentication(code);
 
-            //Building Database
+                //Set loading text to Loading profile
+                LoadingText.Text = "Loading profile";
 
+                //Load Profile
+                var profileData = await DestinyApi.GetProfileAsync();
+
+
+                //Set loading text to Loading platform profile
+                LoadingText.Text = "Loading platform profile";
+
+                //Load Platform Profile
+
+                //Available displayNames
+
+
+                var platformData = await DestinyApi.GetMembershipProfileAsync(profileData.Response.ReturnValidDisplayNames().OrderBy(x => x.Key).Last().Value);
+
+                //Set loading text to Loading character data
+                LoadingText.Text = "Loading character data";
+
+                //Loading characters
+                var characterData = await DestinyApi.GetCharactersAsync();
+
+                //End loading animation
+                if (characterData != null)
+                {
+                    //Find the highest light level character
+                    var highestLight = characterData.Response.characters.data.OrderByDescending(x => x.Value.light).FirstOrDefault().Value.light;
+                    LoadingText.Text = $"Welcome {platformData.displayName}! You're highest light character is {highestLight}";
+                }
+                else
+                {
+                    LoadingText.Text = "";
+                }
+                ProgressLoadingWheel.IsActive = false;
+
+
+
+                //Building Database
+            }
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

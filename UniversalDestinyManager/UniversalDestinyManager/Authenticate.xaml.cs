@@ -31,6 +31,7 @@ namespace UniversalDestinyManager
         private async void LaunchPreAuthWindow_Click(object sender, RoutedEventArgs e)
         {
             await Authenticator.LaunchPreAuthenticationWindow();
+            (Window.Current.Content as Frame).Navigate(typeof(AuthenticatingPage));
         }
     }
 }

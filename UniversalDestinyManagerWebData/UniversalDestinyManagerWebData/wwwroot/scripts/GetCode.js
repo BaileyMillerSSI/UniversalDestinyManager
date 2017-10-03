@@ -76,10 +76,10 @@ var HelperFunctions = (function () {
         if (path === void 0) { path = ""; }
         //Called when redirect fires
         if (path === undefined || path === "") {
-            window.location.replace(this.GetRootPageUrl() + "home.html");
+            window.location.assign(this.GetRootPageUrl() + "home.html");
         }
         else {
-            window.location.replace(this.GetRootPageUrl() + path);
+            window.location.assign(this.GetRootPageUrl() + path);
         }
     };
     HelperFunctions.GetRootPageUrl = function () {

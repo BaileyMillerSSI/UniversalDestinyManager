@@ -34,10 +34,14 @@ namespace UniversalDestinyManager.Services
 
                 //Set this information in the local storage, cache
                 await Authenticator.UpdateSetting("Access_Token", accessData.Access_Token);
+                await Authenticator.UpdateSetting("Refresh_Token", accessData.Refresh_Token);
+                await Authenticator.UpdateSetting("Token_Expires", accessData.Expires_In.ToString());
 
                 await Authenticator.UpdateSetting("MembershipId", accessData.Membership_Id);
             }
         }
+
+        
 
         //Step 3: Send the new authentication information to the Authentication Service
     }

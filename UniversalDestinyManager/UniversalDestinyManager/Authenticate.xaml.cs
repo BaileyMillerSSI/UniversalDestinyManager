@@ -30,7 +30,19 @@ namespace UniversalDestinyManager
 
         private async void LaunchPreAuthWindow_Click(object sender, RoutedEventArgs e)
         {
-            await Authenticator.LaunchPreAuthenticationWindow();
+            var rToken = Authenticator.GetSetting("Refresh_Token");
+            if (rToken != null)
+            {
+                var ReAuthSuccess = await Authenticator.ReAuthenticate();
+                if (!ReAuthSuccess)
+                {
+                    await Authenticator.LaunchPreAuthenticationWindow();
+                }
+            }
+            else {
+                await Authenticator.LaunchPreAuthenticationWindow();
+            }
+
             (Window.Current.Content as Frame).Navigate(typeof(AuthenticatingPage));
         }
     }

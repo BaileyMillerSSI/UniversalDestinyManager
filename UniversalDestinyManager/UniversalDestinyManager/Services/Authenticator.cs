@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using UniversalDestinyManager.Models;
 using Windows.System;
 
 namespace UniversalDestinyManager.Services
@@ -34,6 +36,33 @@ namespace UniversalDestinyManager.Services
             await Launcher.LaunchUriAsync(new Uri(String.Format(AuthorizationPath, Authenticator.Client_ID)));
         }
 
+        public static async Task<bool> ReAuthenticate()
+        {
+            var xForm = new Dictionary<String, String>()
+            {
+                { "grant_type", "refresh_token" },
+                { "client_id", Authenticator.Client_ID},
+                { "client_secret", Authenticator.Client_Secret},
+                { "refresh_token", Authenticator.GetSetting("Refresh_Token")}
+            };
+            var content = new FormUrlEncodedContent(xForm);
+            var postRequest = await Authenticator._Web.PostAsync("https://www.bungie.net/platform/app/oauth/token/", content);
+            if (postRequest.IsSuccessStatusCode)
+            {
+                //Everything went well with this authentication
+                var accessData = JsonConvert.DeserializeObject<AuthenticationResponse>(await postRequest.Content.ReadAsStringAsync());
+
+                //Set this information in the local storage, cache
+                await Authenticator.UpdateSetting("Access_Token", accessData.Access_Token);
+                await Authenticator.UpdateSetting("Refresh_Token", accessData.Refresh_Token);
+                await Authenticator.UpdateSetting("Token_Expires", accessData.Expires_In.ToString());
+
+                await Authenticator.UpdateSetting("MembershipId", accessData.Membership_Id);
+            }
+
+            return postRequest.IsSuccessStatusCode;
+        }
+
         internal static async Task UpdateSetting(string key, string value)
         {
             await Task.Factory.StartNew(() => 
@@ -47,13 +76,26 @@ namespace UniversalDestinyManager.Services
         internal static string GetSetting(string key)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            return localSettings.Values[key].ToString();
+            if (localSettings.Values.ContainsKey(key))
+            {
+                return localSettings.Values[key].ToString();
+            }
+            else {
+                return null;
+            }
         }
 
         internal static object GetSettingRaw(string key)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            return localSettings.Values[key];
+            if (localSettings.Values.ContainsKey(key))
+            {
+                return localSettings.Values[key];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         internal static T GetSetting<T>(string key)
